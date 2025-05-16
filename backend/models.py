@@ -40,7 +40,7 @@ class UserRoles(db.Model):
 
     def __repr__(self):
         return f'<UserRoles {self.user.username} - {self.role.name}>'    
-
+#Blog model
 class Blog(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     title= db.Column(db.String)
