@@ -30,7 +30,10 @@ export default {
             if (res.ok) {
                 const data = await res.json();
                 console.log("we are logged in");
-                console.log(data);
+
+                localStorage.setItem('user',JSON.stringify(data)) //this stores user data in local Storage
+                this.$store.commit('setUser') //takes data from the local storage  and set's the vuex
+                this.$router.push('/feed') //this is the router object that pushes the data into /feed
             }
         }
     }
