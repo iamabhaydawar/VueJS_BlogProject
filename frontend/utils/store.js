@@ -29,13 +29,21 @@ const store = new Vuex.Store({
             state.loggedIn=false; 
             state.user_id=null;
             localStorage.removeItem('user')
+            // Optional: Force page reload to clear any cached data
+            window.location.reload()
         }
 
     },
     actions:{
         //actions commit mutations,can be async
-
+        async intializeStore({commit}){
+            commit('setUser')
+        }
     }
 })
-store.commit('setUser')
+
+//Intialize store
+store.dispatch(
+    'intializeStore'
+)
 export default store;

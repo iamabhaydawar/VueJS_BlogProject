@@ -3,7 +3,7 @@ export default{
     template:`
     <div class="p-4">
         <h1>Blogs List ❤</h1>
-        <BlogCard v-for="blog in blogs" :key="blog.id" :title="blog.title" :date="blog.timestamp" :author_id="blog.user_id"></BlogCard>
+        <BlogCard v-for="blog in blogs" :key="blog.id" :title="blog.title" :date="blog.timestamp" :author_id="blog.user_id" :blog_id="blog.id"></BlogCard>
     </div>
     `,
         //v-bind: to dynamically fetch data
