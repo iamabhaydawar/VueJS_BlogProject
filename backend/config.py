@@ -9,5 +9,11 @@ class LocalDevelopmentConfig(Config):
     SECURITY_PASSWORD_SALT = 'this-is-a-salt' #Salt used to make hashing passwords more secure
     SECRET_KEY="super_secret_key" #Secret key for signing cookies and other cryptographic operations (security purposes)
     SECURITY_TOKEN_AUTHENTICATION_HEADER = 'Authentication-Token' #custom header for token authentication
+   
+    #cache specific
+    CACHE_TYPE ="RedisCache"
+    CACHE_DEFAULT_TIMEOUT=30
+    CACHE_REDIS_PORT=6379 
+   
     WTF_CSRF_ENABLED = False #Disables CSRF protection for forms (not recommended for production / since using JavaScript frontend)
     

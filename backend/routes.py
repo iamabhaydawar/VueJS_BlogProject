@@ -2,12 +2,21 @@ from flask import current_app as app, render_template,request
 from flask_security import auth_required,verify_password,hash_password
 from flask import request, jsonify
 from backend.models import db
+from datetime import datetime
+
 datastore = app.security.datastore
+cache = app.cache
 
 
 @app.route('/',methods=['GET'])
 def home():
         return render_template('index.html') #rendering the index.html file from the frontend folder
+
+@app.get('/cache')
+@cache.cached(timeout = 5)
+def cache():
+        return {'time':str(datetime.now())}
+
 
 
 @app.route('/protected',methods=['GET'])
