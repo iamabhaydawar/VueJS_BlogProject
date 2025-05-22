@@ -1,8 +1,10 @@
-from flask import current_app as app, render_template,request
+from flask import current_app as app, render_template,request,send_file
 from flask_security import auth_required,verify_password,hash_password
 from flask import request, jsonify
 from backend.models import db
 from datetime import datetime
+from backend.celery.tasks import add,create_csv
+from celery.result import AsyncResult
 
 datastore = app.security.datastore
 cache = app.cache
@@ -12,11 +14,38 @@ cache = app.cache
 def home():
         return render_template('index.html') #rendering the index.html file from the frontend folder
 
+@app.get('/celery')
+def celery():
+        task = add.delay(10,20)
+        return {'task_id':task.id}
+
+@app.get('/get-celery-data/<id>')
+def getData(id):
+        result = AsyncResult(id)
+        if result.ready():
+            return{'result': result.result},200
+        else:
+            return {'message':'task not ready'},405
+
+@app.get('/create-csv')
+def createCSV():
+        task=create_csv.delay()
+        return {'task_id':task.id},200
+        
+@app.get('/get-csv/<id>')
+def getCSV(id):
+    result = AsyncResult(id)
+
+    if result.ready():
+        return send_file(f'./backend/celery/user-downloads/{result.result}'), 200
+    else:
+        return {'message' : 'task not ready'}, 405
+
+
 @app.get('/cache')
 @cache.cached(timeout = 5)
-def cache():
-        return {'time':str(datetime.now())}
-
+def get_cache():  
+    return {'time':str(datetime.now())}
 
 
 @app.route('/protected',methods=['GET'])
