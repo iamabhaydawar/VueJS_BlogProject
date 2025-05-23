@@ -5,7 +5,7 @@ import flask_excel
 
 @shared_task(ignore_results = False)
 def add(x,y):
-    time.sleep(2)
+    time.sleep()
     return x+y
 
 @shared_task(ignore_results = False)

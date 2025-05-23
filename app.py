@@ -36,7 +36,7 @@ def create_app():
     api.init_app(app)
 
     return app  
-   
+   #celery instance is in global space in order to run  it seperately
 app = create_app()
 celery_app = celery_init_app(app)
 

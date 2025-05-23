@@ -14,6 +14,13 @@ cache = app.cache
 def home():
         return render_template('index.html') #rendering the index.html file from the frontend folder
 
+
+@app.get('/cache')
+@cache.cached(timeout = 5)
+def get_cache():  
+    return {'time':str(datetime.now())}
+
+
 @app.get('/celery')
 def celery():
         task = add.delay(10,20)
@@ -21,11 +28,14 @@ def celery():
 
 @app.get('/get-celery-data/<id>')
 def getData(id):
-        result = AsyncResult(id)
-        if result.ready():
-            return{'result': result.result},200
-        else:
-            return {'message':'task not ready'},405
+        try:
+            result = AsyncResult(id)
+            if result.ready():
+                return {'result': result.result}, 200
+            else:
+                return {'message':'task not ready', 'status': 'processing'}, 202
+        except Exception as e:
+            return {'error': 'Invalid task ID'}, 400
 
 @app.get('/create-csv')
 def createCSV():
@@ -40,12 +50,6 @@ def getCSV(id):
         return send_file(f'./backend/celery/user-downloads/{result.result}'), 200
     else:
         return {'message' : 'task not ready'}, 405
-
-
-@app.get('/cache')
-@cache.cached(timeout = 5)
-def get_cache():  
-    return {'time':str(datetime.now())}
 
 
 @app.route('/protected',methods=['GET'])
