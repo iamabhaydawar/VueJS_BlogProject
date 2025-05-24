@@ -1,2 +1,5 @@
 .venv
 venv
+user-downloads
+__pycache__
+instance

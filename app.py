@@ -23,8 +23,7 @@ def create_app():
     
     #flask_security initialization and setup
     datastore = SQLAlchemyUserDatastore(db, User, Role)
-    app.cache = cache
-
+  
     #  adding a security instance to the app
     app.security = Security(app, datastore=datastore, register_blueprint=False) #register_blueprint=False to disable the default login routes
     app.app_context().push()
