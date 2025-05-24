@@ -36,7 +36,8 @@ def getData(id):
                 return {'message':'task not ready', 'status': 'processing'}, 202
         except Exception as e:
             return {'error': 'Invalid task ID'}, 400
-
+        
+@auth_required('token')
 @app.get('/create-csv')
 def createCSV():
         task=create_csv.delay()

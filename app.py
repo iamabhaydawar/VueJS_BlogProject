@@ -1,6 +1,7 @@
 from flask import Flask
+from flask_login import login_required
 from backend.config import LocalDevelopmentConfig
-from backend.models import db, User, Role, UserRoles
+from backend.models import db, User, Role
 from flask_security import Security, SQLAlchemyUserDatastore,auth_required
 #for instanciating cacheing
 from flask_caching import Cache
@@ -20,9 +21,11 @@ def create_app():
     cache=Cache(app)
 
 
+
     
     #flask_security initialization and setup
     datastore = SQLAlchemyUserDatastore(db, User, Role)
+    app.cache = cache  # Add this line
   
     #  adding a security instance to the app
     app.security = Security(app, datastore=datastore, register_blueprint=False) #register_blueprint=False to disable the default login routes
@@ -34,13 +37,15 @@ def create_app():
     #flask-restful init
     api.init_app(app)
 
-    return app  
-   #celery instance is in global space in order to run  it seperately
+    return app
+
+# celery instance is in global space in order to run it separately
 app = create_app()
 celery_app = celery_init_app(app)
 
 import backend.create_intial_data
 import backend.routes
+
 #flask-excel
 excel.init_excel(app)
 
