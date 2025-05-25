@@ -3,7 +3,7 @@ from email.mime.multipart import MIMEMultipart #for creating body or structure o
 from email.mime.text import MIMEText 
 
 SMTP_SERVER="localhost"
-SMTP_PORT=8025
+SMTP_PORT=1025
 SENDER_EMAIL ='blogAdmin@example'
 SENDER_PASSWORD=''
 def send_email(to,subject,content):
