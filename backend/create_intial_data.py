@@ -11,17 +11,17 @@ with app.app_context():
     userdatastore.find_or_create_role(name='admin', description='superuser')
     userdatastore.find_or_create_role(name='user', description='general user')
    
-    if not userdatastore.find_user(email='admin@study.iitm.ac.in'):
+    if not userdatastore.find_user(email='admin@ds.study.iitm.ac.in'):
         userdatastore.create_user(
             username='admin',
-            email='admin@study.iitm.ac.in',
+            email='admin@ds.study.iitm.ac.in',
             password=hash_password('pass'),
             roles=['admin']
         )
-    if not userdatastore.find_user(email='user01@study.iitm.ac.in'):
+    if not userdatastore.find_user(email='user01@ds.study.iitm.ac.in'):
         userdatastore.create_user(
             username='user',
-            email='user01@study.iitm.ac.in',
+            email='user01@ds.study.iitm.ac.in',
             password=hash_password('pass'),
             roles=['user']
         )  # for testing purpose
